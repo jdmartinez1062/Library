@@ -1,35 +1,33 @@
 const myLibrary = [];
 
-function Book(title, author, numberPages, read, id) {
-  this.title = title;
-  this.author = author;
-  this.number_pages = numberPages;
-  this.read = read;
-  this.id = id;
+function Book(title, author, number_pages, read, id) {
+
+  check_read = () =>  {
+    if (this.read === true) {
+      return 'already read';
+    }
+    return 'not read yet';
+  };
+  
+  opposite_status = () =>  {
+    if (this.read === true) {
+      return 'Change to "Not read yet"';
+    }
+    return 'Change to "Read"';
+  };
+  
+  
+  toggle_read = () =>  {
+    this.read = !this.read;
+  };
+  
+  info = () =>  {
+    return `${this.title} by ${this.author}, ${this.number_pages} pages, ${this.check_read(this.read)}.`;
+  };
+  
+  return {title, author, number_pages,read,id, check_read, opposite_status, toggle_read, info}
 }
 
-Book.prototype.check_read = function checkRead() {
-  if (this.read === true) {
-    return 'already read';
-  }
-  return 'not read yet';
-};
-
-Book.prototype.opposite_status = function oppositeStatus() {
-  if (this.read === true) {
-    return 'Change to "Not read yet"';
-  }
-  return 'Change to "Read"';
-};
-
-
-Book.prototype.toggle_read = function toggleRead() {
-  this.read = !this.read;
-};
-
-Book.prototype.info = function info() {
-  return `${this.title} by ${this.author}, ${this.number_pages} pages, ${this.check_read(this.read)}.`;
-};
 
 const a = new Book('Harry Potter', 'IDK', 300, true, 0);
 const b = new Book('Rails', 'IDK', 300, true, 1);
@@ -87,7 +85,8 @@ function showForm() {
 // eslint-disable-next-line no-unused-vars
 function deleteArray(index) {
   const book = findObject(index);
-  myLibrary.splice(book.id, 1);
+  index = myLibrary.indexOf(book)
+  myLibrary.splice(index, 1);
 }
 
 document.getElementById('btn-library').addEventListener('click', newBook);
