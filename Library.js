@@ -25,38 +25,36 @@ const library = (() => {
     findObject,
   };
 })();
-function Book(title, author, numberPages, read, id) {
-  const checkRead = () => {
+class Book {
+  constructor(title, author, numberPages, read, id) {
+    this.title = title;
+    this.author = author;
+    this.numberPages = numberPages;
+    this.read = read;
+    this.id = id;
+  }
+
+  checkRead() {
     if (this.read === true) {
       return 'already read';
     }
     return 'not read yet';
-  };
+  }
 
-  const oppositeStatus = () => {
+  oppositeStatus() {
     if (this.read === true) {
       return 'Change to "Not read yet"';
     }
     return 'Change to "Read"';
-  };
+  }
 
-  const toggleRead = () => {
+  toggleRead() {
     this.read = !this.read;
-  };
+  }
 
-  const info = () => `${this.title} by ${this.author}, ${this.numberPages} pages, ${this.checkRead(this.read)}.`;
-
-  return {
-    title,
-    author,
-    numberPages,
-    read,
-    id,
-    checkRead,
-    oppositeStatus,
-    toggleRead,
-    info,
-  };
+  info() {
+    return `${this.title} by ${this.author}, ${this.numberPages} pages, ${this.checkRead(this.read)}.`;
+  }
 }
 
 const a = new Book('Harry Potter', 'IDK', 300, true, 0);
