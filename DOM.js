@@ -21,8 +21,8 @@ function displayBooks(array) {
     title.textContent = array[i].title;
     author.textContent = array[i].author;
     pages.textContent = array[i].number_pages;
-    readStatus.textContent = array[i].check_read();
-    changeReadStatus.textContent = array[i].opposite_status();
+    readStatus.textContent = array[i].checkRead();
+    changeReadStatus.textContent = array[i].oppositeStatus();
     container.appendChild(title);
     container.appendChild(author);
     container.appendChild(pages);
@@ -52,8 +52,8 @@ function update(book) {
   title.textContent = book.title;
   author.textContent = book.author;
   pages.textContent = book.number_pages;
-  readStatus.textContent = book.check_read();
-  changeReadStatus.textContent = book.opposite_status();
+  readStatus.textContent = book.checkRead();
+  changeReadStatus.textContent = book.oppositeStatus();
   container.appendChild(title);
   container.appendChild(author);
   container.appendChild(pages);
@@ -67,25 +67,27 @@ function update(book) {
     // eslint-disable-next-line no-use-before-define
     deleteBook(k);
   });
-  document.getElementById(changeReadStatus.id).addEventListener('click', (e) => {
-    e = e.target;
-    const b = e.id;
-    const k = b.substring(11, b.length);
-    // eslint-disable-next-line no-undef
-    const object = findObject(k);
-    object.toggle_read();
-    // eslint-disable-next-line no-use-before-define
-    updateReadStatus(object);
-  });
+  document
+    .getElementById(changeReadStatus.id)
+    .addEventListener('click', (e) => {
+      e = e.target;
+      const b = e.id;
+      const k = b.substring(11, b.length);
+      // eslint-disable-next-line no-undef
+      const object = library.findObject(k);
+      object.toggleRead();
+      // eslint-disable-next-line no-use-before-define
+      updateReadStatus(object);
+    });
 }
 
 function deleteBook(book) {
   document.getElementById(`container-${book}`).remove();
   // eslint-disable-next-line no-undef
-  deleteArray(book);
+  library.deleteArray(book);
 }
 
 function updateReadStatus(book) {
-  document.getElementById(`p-read-${book.id}`).textContent = book.check_read();
-  document.getElementById(`readButton-${book.id}`).textContent = book.opposite_status();
+  document.getElementById(`p-read-${book.id}`).textContent = book.checkRead();
+  document.getElementById(`readButton-${book.id}`).textContent = book.oppositeStatus();
 }

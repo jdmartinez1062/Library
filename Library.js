@@ -1,41 +1,67 @@
 const myLibrary = [];
 
-function Book(title, author, number_pages, read, id) {
-
-  check_read = () =>  {
+const library = (() => {
+  const findObject = (k) => {
+    for (let i = 0; i < myLibrary.length; i += 1) {
+      // eslint-disable-next-line eqeqeq
+      if (myLibrary[i].id === parseInt(k, 10)) {
+        return myLibrary[i];
+      }
+    }
+    return null;
+  };
+  const addBookToLibrary = (book) => {
+    myLibrary.push(book);
+  };
+  // eslint-disable-next-line no-unused-vars
+  const deleteArray = (index) => {
+    const book = findObject(index);
+    index = myLibrary.indexOf(book);
+    myLibrary.splice(index, 1);
+  };
+  return {
+    addBookToLibrary,
+    deleteArray,
+    findObject,
+  };
+})();
+function Book(title, author, numberPages, read, id) {
+  const checkRead = () => {
     if (this.read === true) {
       return 'already read';
     }
     return 'not read yet';
   };
-  
-  opposite_status = () =>  {
+
+  const oppositeStatus = () => {
     if (this.read === true) {
       return 'Change to "Not read yet"';
     }
     return 'Change to "Read"';
   };
-  
-  
-  toggle_read = () =>  {
+
+  const toggleRead = () => {
     this.read = !this.read;
   };
-  
-  info = () =>  {
-    return `${this.title} by ${this.author}, ${this.number_pages} pages, ${this.check_read(this.read)}.`;
-  };
-  
-  return {title, author, number_pages,read,id, check_read, opposite_status, toggle_read, info}
-}
 
+  const info = () => `${this.title} by ${this.author}, ${this.numberPages} pages, ${this.checkRead(this.read)}.`;
+
+  return {
+    title,
+    author,
+    numberPages,
+    read,
+    id,
+    checkRead,
+    oppositeStatus,
+    toggleRead,
+    info,
+  };
+}
 
 const a = new Book('Harry Potter', 'IDK', 300, true, 0);
 const b = new Book('Rails', 'IDK', 300, true, 1);
 
-
-function addBookToLibrary(book) {
-  myLibrary.push(book);
-}
 
 function checkFirstId(element) {
   if (element.length === 0) {
@@ -59,35 +85,19 @@ function newBook() {
   const id = checkFirstId(myLibrary);
   read = changeReadValue(read);
   const bookNew = new Book(title, author, pages, read, id);
-  addBookToLibrary(bookNew);
+  library.addBookToLibrary(bookNew);
   const form = document.getElementById('form');
   form.classList.toggle('hidden');
   // eslint-disable-next-line no-undef
   update(myLibrary[myLibrary.length - 1]);
 }
 
-function findObject(k) {
-  for (let i = 0; i < myLibrary.length; i += 1) {
-    // eslint-disable-next-line eqeqeq
-    if (myLibrary[i].id === parseInt(k, 10)) {
-      return myLibrary[i];
-    }
-  }
-  return null;
-}
 
 function showForm() {
   const form = document.getElementById('form');
   form.classList.toggle('hidden');
 }
 
-
-// eslint-disable-next-line no-unused-vars
-function deleteArray(index) {
-  const book = findObject(index);
-  index = myLibrary.indexOf(book)
-  myLibrary.splice(index, 1);
-}
 
 document.getElementById('btn-library').addEventListener('click', newBook);
 
@@ -101,14 +111,13 @@ function deleteDiv(e) {
   deleteBook(k);
 }
 
-addBookToLibrary(a);
-addBookToLibrary(b);
+library.addBookToLibrary(a);
+library.addBookToLibrary(b);
 // eslint-disable-next-line no-undef
 displayBooks(myLibrary);
 
 const objects = Array.from(document.getElementsByClassName('delete'));
 const objectsRead = Array.from(document.getElementsByClassName('read'));
-
 
 for (let i = 0; i < objects.length; i += 1) {
   document.getElementById(objects[i].id).addEventListener('click', deleteDiv);
@@ -117,8 +126,8 @@ for (let i = 0; i < objects.length; i += 1) {
     e = e.target;
     const b = e.id;
     const k = b.substring(11, b.length);
-    const object = findObject(k);
-    object.toggle_read();
+    const object = library.findObject(k);
+    object.toggleRead();
     // eslint-disable-next-line no-undef
     updateReadStatus(object);
   });
